@@ -12,9 +12,11 @@ describe('TheOneApi', () => {
      * If I were to spend more time on this, I would mock the fetch call and/or inject
      * a fetch library so I could instrument the return and test all the success/error cases
      */
-    test.skip('It should get some books', async () => {
-        const api = new TheOneApi('');
-        const result = await api.get('book');
-        expect(result.docs.length).toEqual(3);
-    });
+    if (process.env.TOA_KEY) {
+        test('It should get some books', async () => {
+            const api = new TheOneApi('');
+            const result = await api.get('book');
+            expect(result.docs.length).toEqual(3);
+        });
+    }
 });

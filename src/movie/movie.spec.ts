@@ -14,12 +14,14 @@ describe('LotRMovie', () => {
      * If I were to spend more time on this, I would create a mock API instance
      * so I could instrument the return and test all the success/error cases
      */
-    test.skip('It should hydrate itself', async () => {
-        const api = new TheOneApi('');
-        const movie = new LotRMovie('1234', api);
-        await movie.load();
-        expect(movie.data).not.toBeUndefined();
-    });
+    if (process.env.TOA_KEY) {
+        test('It should hydrate itself', async () => {
+            const api = new TheOneApi('');
+            const movie = new LotRMovie('1234', api);
+            await movie.load();
+            expect(movie.data).not.toBeUndefined();
+        });
+    }
 
     // Insert tests for the other endpoints here
 });

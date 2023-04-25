@@ -64,6 +64,9 @@ You can then view the documentation in [./docs](./docs/index.html)
 
 Run the following commands to execute various tests:
 
+**For this example, I left a few tests that make an actual call to the API so
+you will need your API key specified, see [Authentication](#authentication)**
+
 -   `npm t` will run all tests
 -   `npm run test:unit` will run all unit tests
 -   `npm run test:watch` to watch for changes and rerun the tests
