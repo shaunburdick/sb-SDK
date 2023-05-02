@@ -32,18 +32,21 @@ export interface LotRMovieData {
 
     /**
      * The number of award nominations from the Academy of Motion Picture Arts and Sciences
+     *
      * @see https://www.oscars.org/oscars
      */
     academyAwardNominations: number;
 
     /**
      * The number of award wins from the Academy of Motion Picture Arts and Sciences
+     *
      * @see https://www.oscars.org/oscars
      */
     academyAwardWins: number;
 
     /**
      * The score awarded to the movie from Rotten Tomatoes
+     *
      * @see https://www.rottentomatoes.com/about
      */
     rottenTomatoesScore: number;

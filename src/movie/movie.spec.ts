@@ -16,8 +16,8 @@ describe('LotRMovie', () => {
      */
     if (process.env.TOA_KEY) {
         test('It should hydrate itself', async () => {
-            const api = new TheOneApi('');
-            const movie = new LotRMovie('1234', api);
+            const api = new TheOneApi(process.env.TOA_KEY as string);
+            const movie = new LotRMovie('5cd95395de30eff6ebccde5c', api); // The Fellowship of the Ring
             await movie.load();
             expect(movie.data).not.toBeUndefined();
         });

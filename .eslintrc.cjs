@@ -4,9 +4,10 @@ module.exports = {
         node: true,
     },
     extends: [
-        'eslint:recommended',
-        'plugin:@typescript-eslint/recommended',
-        'plugin:security/recommended',
+        'eslint-config-shaunburdick/typescript'
+        // 'eslint:recommended',
+        // 'plugin:@typescript-eslint/recommended',
+        // 'plugin:security/recommended',
     ],
     parser: '@typescript-eslint/parser',
     parserOptions: {
@@ -15,12 +16,8 @@ module.exports = {
         tsconfigRootDir: __dirname,
         project: 'tsconfig.json',
     },
-    plugins: ['@typescript-eslint', 'prettier', 'security', 'simple-import-sort'],
+    plugins: ['prettier'],
     rules: {
-        'simple-import-sort/imports': 'error',
-        'simple-import-sort/exports': 'error',
-        '@typescript-eslint/indent': 'off',
-        'linebreak-style': ['error', 'unix'],
         'prettier/prettier': ['error', { tabWidth: 4 }],
     },
 };

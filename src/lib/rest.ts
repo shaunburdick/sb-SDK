@@ -76,10 +76,14 @@ export interface APIResponse<DOC = unknown> {
 export class TheOneApi {
     /**
      * Creates an instance of TheOneApi.
+     *
      * @param apiKey The API key to access authenticated endpoints. @see https://the-one-api.dev/sign-up
      * @param [base='https://the-one-api.dev/v2']
      */
-    constructor(private apiKey: string, private base: string = 'https://the-one-api.dev/v2') {}
+    public constructor(
+        private apiKey: string,
+        private base: string = 'https://the-one-api.dev/v2',
+    ) {}
 
     /**
      * Fetch some documents from the API
@@ -89,9 +93,11 @@ export class TheOneApi {
      * @param [params] Any additional parameters to filter the response
      * @return A promise that resolves with the API response
      */
-    async get<DOC>(path: string, params?: APIParams): Promise<APIResponse<DOC>> {
+    public async get<DOC>(path: string, params?: APIParams): Promise<APIResponse<DOC>> {
         const headers = {
+            // eslint-disable-next-line @typescript-eslint/naming-convention
             Accept: 'application/json',
+            // eslint-disable-next-line @typescript-eslint/naming-convention
             Authorization: `Bearer ${this.apiKey}`,
         };
         const url = new URL(`${this.base}/${path}`);
@@ -129,6 +135,7 @@ export class TheOneApi {
             switch (key) {
                 /**
                  * `sort` is a more complicated case, requiring merging field and direction
+                 *
                  * @see https://the-one-api.dev/documentation
                  */
                 case 'sort':

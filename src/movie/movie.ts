@@ -1,6 +1,6 @@
-import { APIParams, TheOneApi } from '../lib/rest';
-import { LotRQuote } from '../models/quote';
-import { LotRMovieData } from './movie.model';
+import type { APIParams, TheOneApi } from '../lib/rest';
+import type { LotRQuote } from '../models/quote';
+import type { LotRMovieData } from './movie.model';
 
 /**
  * This class represents a LotR movie.
@@ -11,22 +11,37 @@ import { LotRMovieData } from './movie.model';
  */
 export class LotRMovie {
     /**
+     * Helper values for the API slugs needed to fetch data
+     */
+    public static slug = {
+        movie: 'movie',
+        quote: 'quote',
+    };
+
+    /**
      * The Raw movie data, as provided by the API
      */
-    data?: LotRMovieData;
+    public data?: LotRMovieData;
 
     /**
      * The collection unique identification of the movie
      */
-    id: string;
+    public id: string;
 
     /**
-     * Helper values for the API slugs needed to fetch data
+     * Creates an instance of LotRMovie.
+     *
+     * @param content Either the movie id (for later hydration) or the full data object
+     * @param api an instance of the One API
      */
-    static slug = {
-        movie: 'movie',
-        quote: 'quote',
-    };
+    public constructor(content: string | LotRMovieData, private api: TheOneApi) {
+        if (typeof content === 'string') {
+            this.id = content;
+        } else {
+            this.data = content;
+            this.id = content._id;
+        }
+    }
 
     /**
      * Search an instance of the API, with given parameters
@@ -36,7 +51,7 @@ export class LotRMovie {
      * @param [params] Any search parameters
      * @return Fully hydrated instances of LotRMovie classes
      */
-    static async search(api: TheOneApi, params?: APIParams): Promise<LotRMovie[]> {
+    public static async search(api: TheOneApi, params?: APIParams): Promise<LotRMovie[]> {
         const result = await LotRMovie.searchRaw(api, params);
 
         return result.map(doc => new LotRMovie(doc, api));
@@ -50,7 +65,7 @@ export class LotRMovie {
      * @param [params] Any search parameters
      * @return The raw movie data from the API
      */
-    static async searchRaw(api: TheOneApi, params?: APIParams): Promise<LotRMovieData[]> {
+    public static async searchRaw(api: TheOneApi, params?: APIParams): Promise<LotRMovieData[]> {
         const result = await api.get<LotRMovieData>(`${LotRMovie.slug.movie}`, params);
         if (!result || !result.docs) {
             throw new Error(`Unable to find movies with params: ${params}`);
@@ -60,26 +75,12 @@ export class LotRMovie {
     }
 
     /**
-     * Creates an instance of LotRMovie.
-     * @param content Either the movie id (for later hydration) or the full data object
-     * @param api an instance of the One API
-     */
-    constructor(content: string | LotRMovieData, private api: TheOneApi) {
-        if (typeof content === 'string') {
-            this.id = content;
-        } else {
-            this.data = content;
-            this.id = content._id;
-        }
-    }
-
-    /**
      * Fetch quotes from this specific movie
      *
      * @param params Any search parameters for the quotes
      * @return an array of raw quote data
      */
-    async quote(params: APIParams): Promise<LotRQuote[]> {
+    public async quote(params: APIParams): Promise<LotRQuote[]> {
         const result = await this.api.get<LotRQuote>(
             `${LotRMovie.slug.movie}/${this.id}/${LotRMovie.slug.quote}`,
             params,
@@ -93,7 +94,7 @@ export class LotRMovie {
      *
      * @return itself, hydrated
      */
-    async load(): Promise<LotRMovie> {
+    public async load(): Promise<LotRMovie> {
         const result = await this.api.get<LotRMovieData>(`${LotRMovie.slug.movie}/${this.id}`);
         if (!result || !result.docs) {
             throw new Error(`Unable to find movie with id: ${this.id}`);
@@ -104,7 +105,7 @@ export class LotRMovie {
         return this;
     }
 
-    toString(): string {
+    public toString(): string {
         return JSON.stringify(this.data);
     }
 }

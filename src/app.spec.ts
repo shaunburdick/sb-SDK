@@ -31,7 +31,7 @@ describe('TheOneSDK', () => {
         test('It should throw an error if it cannot find the movie by id', async () => {
             const id = 'not-a-real-id';
             const sdk = new TheOneSDK();
-            expect(sdk.movie(id)).rejects.toThrowError(`Unable to find movie with id: ${id}`);
+            await expect(sdk.movie(id)).rejects.toThrowError(`Unable to find movie with id: ${id}`);
         });
     }
 });
