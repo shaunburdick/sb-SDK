@@ -16,7 +16,7 @@
         "test:lint": "eslint 'src/**/*.ts' --ext .ts",
         "test:unit": "vitest run",
         "test:watch": "vitest",
-        "test": "npm run test:format && npm run test:lint && npm run test:unit"
+        "test": "npm run test:format && npm run test:lint && npm run test:coverage"
     },
     "repository": {
         "type": "git",
